@@ -1,0 +1,97 @@
+body {
+    background-color: gray;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    background-color: white;
+    margin: 20px auto;
+    padding: 10px;
+    max-width: 500px;
+    min-height: 320px;
+    text-align: center;
+}
+
+input#username, input#password, input#confirm_password {
+    width: 80%;
+    height: 40px;
+    padding: 7px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 150px;
+    height: 40px;
+    font-size: 1rem;
+}
+
+/* index.html */
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.users {
+    display: flex;
+    padding: 0 10px;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid;
+}
+
+p.username {
+    width: 80%;
+    text-align: left;
+}
+
+p.user-info {
+    text-align: left;
+}
+
+.action {
+	font-family: sans-serif;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.action-add {
+    background-color: green;
+    padding: 8px 15px;
+}
+
+.action-mod {
+    background-color: blue;
+}
+
+.action-del {
+    background-color: gray;
+}
+
+.action-logout {
+    background-color: gray;
+    padding: 8px 15px;
+}
+
+.btns {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+}
+
+.btn {
+    display: flex;
+    width: 150px;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    border: 1px solid;
+
+}
