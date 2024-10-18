@@ -14,17 +14,12 @@
             <a href="/login" class="action action-logout">Logout</a>
         </div>
         <div class="header">
-            <h1>User List</h1>
+            <h1 class="header-title">User List</h1>
             <a href="/add-user" class="action action-add">Add</a>
         </div>
-        <div class="users">
-            <p class="username">User 1</p>
-            <a href="/mod-user" class="action action-mod">Mod</a>
-            <div class="action action-del">Del</div>
-        </div>
-        <div class="users">
-            <p class="username">User 2</p>
-            <a href="/mod-user" class="action action-mod">Mod</a>
+        <div th:each="user: ${users}" class="users">
+            <p class="username" th:text="${user.username}"></p>
+            <a th:href="@{/mod-user(id=${user.id})}" class="action action-mod">Mod</a>
             <div class="action action-del">Del</div>
         </div>
     </div>

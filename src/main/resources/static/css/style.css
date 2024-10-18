@@ -1,9 +1,18 @@
 body {
+	font-family: sans-serif;
     background-color: gray;
 }
 
 a {
     text-decoration: none;
+}
+
+.error {
+    margin: 0 auto 10px auto;
+    border: 1px solid red;
+    width: 80%;
+    background-color: #d79797;
+    padding: 7px;
 }
 
 .container {
@@ -37,6 +46,10 @@ button {
     align-items: baseline;
 }
 
+.header-title {
+	text-transform: uppercase;
+}
+
 .users {
     display: flex;
     padding: 0 10px;
@@ -55,7 +68,6 @@ p.user-info {
 }
 
 .action {
-	font-family: sans-serif;
     color: white;
     padding: 5px;
     cursor: pointer;
