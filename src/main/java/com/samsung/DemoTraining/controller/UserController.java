@@ -26,13 +26,13 @@ public class UserController {
 				return "add-user";
 			} 
 			
-			User user1 = User.builder().id(++userService.countUsers).username(user.getUsername()).password(user.getPassword())
+			User user1 = User.builder().username(user.getUsername()).password(user.getPassword())
 					.build();
-			userService.add(user1);
+			userRepo.save(user1);
+//			userService.add(user1);
 			
 			model.addAttribute("message", "Register successful");
-			model.addAttribute("users", userService.users);
-			return "index";
+			return "redirect:/";
 		} else {
 			model.addAttribute("error", "Username existed");
 			return "add-user";
@@ -46,17 +46,24 @@ public class UserController {
 			return "mod-user";
 		} 
 		
-		// neu username ko ton tai thi sua username, neu ton tai thi chi sua password
+		User userUpdate = userService.get(user.getId());
+		
+		// neu username ko ton tai thi sua username va password, neu ton tai thi chi sua password
 		if (!userService.contain(user)) {
-			userService.updateUserName(user.getId(), user.getUsername());
-			userService.updatePassword(user.getId(), user.getUsername());
+			userUpdate.setUsername(user.getUsername());
+			userUpdate.setPassword(user.getPassword());
+			
+//			userService.updateUserName(user.getId(), user.getUsername());
+//			userService.updatePassword(user.getId(), user.getUsername());
 		} else {
-			userService.updatePassword(user.getId(), user.getUsername());			
+			userUpdate.setPassword(user.getPassword());
+//			userService.updatePassword(user.getId(), user.getUsername());			
 		}
+
+		userRepo.save(userUpdate);
 		
 		model.addAttribute("message", "Modify successful");
-		model.addAttribute("users", userService.users);
-		return "index";
+		return "redirect:/";
 		
 	}
 }

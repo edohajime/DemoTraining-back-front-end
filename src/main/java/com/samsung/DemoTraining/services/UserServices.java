@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.samsung.DemoTraining.repository.UserRepository;
 import com.samsung.DemoTraining.repository.model.User;
 
 @Service
 public class UserServices {
+	@Autowired
+	private UserRepository userRepo;
 	public static List<User> users = new ArrayList<>();
 	{
 		users.addAll(Arrays.asList(User.builder().id(1).username("ht.anh1").password("123456").build(),
@@ -23,15 +27,9 @@ public class UserServices {
 		users.add(user);
 	}
 
-	public boolean contain(User checkUser) {
-		boolean contain = false;
-		for (User user : users) {
-			if (user.getUsername().equals(checkUser.getUsername())) {
-				contain = true;
-			}
-		}
-		return contain;
-	}
+//	public void updateUserName(int id, String username) {
+//		users.get(id - 1).setUsername(username);
+//	}
 
 	public void updateUserName(int id, String username) {
 		users.get(id - 1).setUsername(username);
@@ -43,6 +41,31 @@ public class UserServices {
 	}
 	
 	public User get(int id) {
-		return users.get(id - 1);
+		return userRepo.findById(id).get();
+	}
+	
+	public List<User> getAllUser() {
+		return userRepo.findAll();
+	}
+
+//	public boolean contain(User checkUser) {
+//		boolean contain = false;
+//		for (User user : users) {
+//			if (user.getUsername().equals(checkUser.getUsername())) {
+//				contain = true;
+//			}
+//		}
+//		return contain;
+//	}
+	
+	public boolean contain(User checkUser) {
+		boolean contain = false;
+		List<User> users = userRepo.findAll();
+		for (User user : users) {
+			if (user.getUsername().equals(checkUser.getUsername())) {
+				contain = true;
+			}
+		}
+		return contain;
 	}
 }
