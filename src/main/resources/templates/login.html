@@ -1,21 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    
-    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: gray;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .error {
+            margin: 0 auto 10px auto;
+            border: 1px solid red;
+            width: 80%;
+            background-color: #d79797;
+            padding: 7px;
+        }
+
+        .container {
+            background-color: white;
+            margin: 20px auto;
+            padding: 10px;
+            max-width: 500px;
+            min-height: 320px;
+            text-align: center;
+        }
+
+        input#username,
+        input#password,
+        input#confirm_password {
+            width: 80%;
+            height: 40px;
+            padding: 7px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        button.btn {
+            width: 150px;
+            height: 40px;
+            font-size: 1rem;
+        }
+
+        .header-title {
+            text-transform: uppercase;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
         <h1 class="header-title">Login</h1>
-        <form action="/" method="get">
+        <form th:action="@{/login}" method="post">
+            <p class="error" th:if="${param.error}">Bad Credentials</p>
+            <p class="error" th:if="${param.logout}">You have been logged out</p>
             <input type="text" name="username" id="username" placeholder="User name">
             <input type="password" name="password" id="password" placeholder="Password">
-            <button type="submit">Login</button>
+            <button class="btn" type="submit" style="margin: 0 auto">Login</button>
         </form>
     </div>
-    
+
 </body>
+
 </html>

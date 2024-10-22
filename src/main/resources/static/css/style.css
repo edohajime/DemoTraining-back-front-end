@@ -32,7 +32,7 @@ input#username, input#password, input#confirm_password {
     margin-bottom: 10px;
 }
 
-button {
+button.btn {
     width: 150px;
     height: 40px;
     font-size: 1rem;
@@ -105,5 +105,9 @@ p.user-info {
     align-items: center;
     font-family: sans-serif;
     border: 1px solid;
+}
 
+button.action.action-logout {
+    border: none;
+    font-size: 1rem;
 }

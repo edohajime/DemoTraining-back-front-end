@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    
+
     <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <p>User: User 6</p>
-            <a href="/login" class="action action-logout">Logout</a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="action action-logout">Sign Out</button>
+            </form>
         </div>
         <div class="header">
             <h1 class="header-title">User List</h1>
@@ -20,8 +24,17 @@
         <div th:each="user: ${users}" class="users">
             <p class="username" th:text="${user.username}"></p>
             <a th:href="@{/mod-user(id=${user.id})}" class="action action-mod">Mod</a>
-            <div class="action action-del">Del</div>
+            <div class="action action-del" th:onclick="handleDelUser()">Del</div>
+            <!-- <a th:href="@{/del-user(id=${user.id})}" class="action action-del">Del</a> -->
         </div>
     </div>
+
+    <script>
+        function handleDelUser() {
+            if(confirm(`Are you sure to remove user?`))
+                console.log('remove success');
+        }
+    </script>
 </body>
+
 </html>
