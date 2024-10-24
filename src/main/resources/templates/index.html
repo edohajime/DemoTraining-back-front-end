@@ -12,9 +12,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <p>User: User 6</p>
+            <p class="current-username">User: <span th:text="${username}"></span></p>
+            <!-- action action-mod profile -->
+            <div class="update-profile">
+                <a href="/profile-info">Update Profile <img class="caret-down-solid"
+                        src="/imgs/caret-down-solid.svg" alt="svg file"></a>
+                <a href="/change-password" class="update-profile-option">Change Password</a>
+            </div>
             <form th:action="@{/logout}" method="post">
-                <button type="submit" class="action action-logout">Sign Out</button>
+                <button type="submit" class="action action-logout">Log Out</button>
             </form>
         </div>
         <div class="header">
@@ -23,16 +29,29 @@
         </div>
         <div th:each="user: ${users}" class="users">
             <p class="username" th:text="${user.username}"></p>
-            <a th:href="@{/mod-user(id=${user.id})}" class="action action-mod">Mod</a>
-            <div class="action action-del" th:onclick="handleDelUser()">Del</div>
-            <!-- <a th:href="@{/del-user(id=${user.id})}" class="action action-del">Del</a> -->
+            <th:block th:if="${user.username != username}">
+                <a th:href="@{/mod-user(id=${user.id})}" class="action action-mod">Mod</a>
+                <div class="action action-del" th:attr="onclick=|handleDelUser(${user.id}, '${user.username}')|">Del
+                </div>
+            </th:block>
         </div>
+        <th:block th:if="${param.continue}">
+            <script th:inline="javascript">
+                alert('Login success!');
+            </script>
+        </th:block>
+        <th:block th:if="${param.message != null && param.message != ''}">
+            <script th:inline="javascript">
+                alert([[${ param.message }]]);
+            </script>
+        </th:block>
+
     </div>
 
     <script>
-        function handleDelUser() {
-            if(confirm(`Are you sure to remove user?`))
-                console.log('remove success');
+        function handleDelUser(id, username) {
+            if (confirm(`Are you sure to remove user?`))
+                location.replace("/del-user?id=" + id);
         }
     </script>
 </body>

@@ -1,22 +1,26 @@
 package com.samsung.DemoTraining.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.samsung.DemoTraining.repository.model.User;
-import com.samsung.DemoTraining.services.UserServices;
+import com.samsung.DemoTraining.services.UserService;
 
 @Controller
 public class HomeController {
 	@Autowired
-	UserServices userService;
+	UserService userService;
 	
 	@GetMapping(value = "/")
-	public String index(Model model) {
+	public String index(Principal principal, Model model) {
 		model.addAttribute("users", userService.getAllUser());
+		model.addAttribute("username", principal.getName());
 		return "index";
 	}
 
@@ -35,6 +39,18 @@ public class HomeController {
 		User user = userService.get(id);
 		model.addAttribute("user", user);
 		return "mod-user";
+	}
+	
+	@GetMapping(value = "/change-password")
+	public String changePassword(Principal principal, Model model) {
+		model.addAttribute("username", principal.getName());
+		return "change-password";
+	}
+	
+	@GetMapping(value = "/profile-info")
+	public String profileInfo(Principal principal, Model model) {
+		model.addAttribute("username", principal.getName());
+		return "update-profile";
 	}
 
 }
