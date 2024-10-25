@@ -1,8 +1,12 @@
 package com.samsung.DemoTraining.controller;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +44,10 @@ public class UserController {
 
 		User userAdd = User.builder().username(user.getUsername())
 				.password(config.passwordEncoder().encode(user.getPassword())).build();
+		Set<GrantedAuthority> authorities = new HashSet<>();
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		userAdd.setAuthorities(authorities);
+		
 		userRepo.save(userAdd);
 
 		return "redirect:/?message=Register successful";
