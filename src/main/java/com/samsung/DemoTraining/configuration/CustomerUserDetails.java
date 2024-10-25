@@ -19,7 +19,13 @@ public class CustomerUserDetails implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+//		return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+		
+		if (user.getAuthorities() == null || user.getAuthorities().isEmpty()) {
+			return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+		}
+		
+		return user.getAuthorities();
 	}
 
 	@Override

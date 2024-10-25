@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,13 +26,13 @@
         </div>
         <div class="header">
             <h1 class="header-title">User List</h1>
-            <a href="/add-user" class="action action-add">Add</a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" href="/add-user" class="action action-add">Add</a>
         </div>
         <div th:each="user: ${users}" class="users">
             <p class="username" th:text="${user.username}"></p>
             <th:block th:if="${user.username != username}">
-                <a th:href="@{/mod-user(id=${user.id})}" class="action action-mod">Mod</a>
-                <div class="action action-del" th:attr="onclick=|handleDelUser(${user.id}, '${user.username}')|">Del
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/mod-user(id=${user.id})}" class="action action-mod">Mod</a>
+                <div sec:authorize="hasRole('ROLE_ADMIN')" class="action action-del" th:attr="onclick=|handleDelUser(${user.id}, '${user.username}')|">Del
                 </div>
             </th:block>
         </div>

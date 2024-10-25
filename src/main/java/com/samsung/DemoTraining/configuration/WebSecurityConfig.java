@@ -57,7 +57,10 @@ public class WebSecurityConfig {
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.csrf(AbstractHttpConfigurer::disable)
 				.authorizeRequests(
-						request -> request.requestMatchers("/login").permitAll().requestMatchers("/**").authenticated())
+						request -> request
+						.requestMatchers("/login").permitAll()
+						.requestMatchers("/add-user", "/mod-user", "/del-user").hasAuthority("ROLE_ADMIN")
+						.requestMatchers("/**").authenticated())
 				.formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/?continue").failureUrl("/login?error=true")
 						.permitAll())
 				.logout(config -> config.logoutUrl("/logout").logoutSuccessUrl("/login?logout=true")).build();

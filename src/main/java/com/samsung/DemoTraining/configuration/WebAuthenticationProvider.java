@@ -40,7 +40,12 @@ public class WebAuthenticationProvider implements AuthenticationProvider {
 		}
 
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+//		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		authorities.addAll(user.getAuthorities());
+		if (user.getUsername().equals("ht.anh1")) {
+			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		}
+		
 		return new UsernamePasswordAuthenticationToken(username, password, authorities);
 	}
 
