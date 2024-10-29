@@ -1,5 +1,6 @@
 package com.samsung.DemoTraining.controller;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ import com.samsung.DemoTraining.configuration.WebSecurityConfig;
 import com.samsung.DemoTraining.repository.UserRepository;
 import com.samsung.DemoTraining.repository.model.User;
 import com.samsung.DemoTraining.services.UserService;
+import com.samsung.DemoTraining.utilities.Utilities;
 
 @Controller
 public class UserController {
@@ -31,14 +33,13 @@ public class UserController {
 
 	@PostMapping(value = "/register")
 	public String register(User user, Model model) {
-
-		if (userService.contain(user)) {
-			model.addAttribute("error", "Username existed");
+		
+		if (!Utilities.validateUsernamePassword(user, model)) {
 			return "add-user";
 		}
-
-		if (!user.getPassword().equals(user.getConfirm_password())) {
-			model.addAttribute("error", "Confirm password must equals to new password!");
+		
+		if (userService.contain(user)) {
+			model.addAttribute("error", "Username existed");
 			return "add-user";
 		}
 
@@ -52,13 +53,13 @@ public class UserController {
 
 		return "redirect:/?message=Register successful";
 	}
-
+	
 	@PostMapping(value = "/modify-user")
 	public String modifyUser(User user, Model model) {
-//		if (!user.getPassword().equals(user.getConfirm_password())) {
-//			model.addAttribute("error", "Confirm password must equals to new password!");
-//			return "mod-user";
-//		}
+
+		if (!Utilities.validateUsername(user, model)) {
+			return "mod-user";
+		}
 
 		User userUpdate = userService.get(user.getId());
 
@@ -73,10 +74,11 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/change-pwd")
-	public String changePwd(User user, Model model) {
-		if (!user.getPassword().equals(user.getConfirm_password())) {
-			model.addAttribute("error", "Confirm password must equals to new password!");
-			return "mod-user";
+	public String changePwd(User user, Model model, Principal principal) {
+		
+		if (!Utilities.validateUsernamePassword(user, model)) {
+			model.addAttribute("username", principal.getName());
+			return "change-password";
 		}
 
 		User userUpdate = userService.getUser(user.getUsername());
@@ -101,22 +103,14 @@ public class UserController {
 		userRepo.delete(userDel);
 
 		return "redirect:/?message=Delete successful";
+		
 	}
 
 	@PostMapping(value = "/update-profile")
-	public String updateProfile(User user, Model model) {
-		if (!user.getFullname().matches("^[\\w\\s]{4,30}")) {
-			model.addAttribute("error", "Invalid fullname!");
-			return "update-profile";
-		}
+	public String updateProfile(User user, Model model, Principal principal) {
 		
-		if (!user.getEmail().matches("^[\\w+.]*\\w+@\\w+.[a-z]*")) {
-			model.addAttribute("error", "Invalid email!");
-			return "update-profile";
-		}
-		
-		if (!user.getPhone().matches("^\\d{10,15}")) {
-			model.addAttribute("error", "Invalid phone!");
+		if (!Utilities.validateUserProfiles(user, model)) {
+			model.addAttribute("username", principal.getName());
 			return "update-profile";
 		}
 

@@ -10,15 +10,15 @@
 <body>
     <div class="container">
         <h1 class="header-title">User Infomation</h1>
-        <form action="/update-profile" method="post">
+        <form action="/update-profile" method="post" th:object="${user}">
             <p class="error" th:if="${error != null}" th:text="${error}"></p>
             <input type="hidden" name="username" th:value="${username}">
             <div class="input-username" th:text="${username}"></div>
-            <input class="form-input" type="text" name="fullname" id="fullname" placeholder="Full name">
-            <input class="form-input" type="number" name="birthyear" id="birthyear" placeholder="Birth year">
-            <input class="form-input" type="text" name="email" id="email" placeholder="Email">
-            <input class="form-input" type="tel" name="phone" id="phone" placeholder="Phone Number">
-            <textarea class="form-input" name="bio" id="bio" placeholder="Biography"></textarea>
+            <input class="form-input" type="text" name="fullname" id="fullname" th:field="*{fullname}" placeholder="Full name">
+            <input class="form-input" type="number" name="birthyear" id="birthyear" th:field="*{birthyear}" placeholder="Birth year">
+            <input class="form-input" type="text" name="email" id="email" th:field="*{email}" placeholder="Email">
+            <input class="form-input" type="tel" name="phone" id="phone" th:field="*{phone}" placeholder="Phone Number">
+            <textarea class="form-input" name="bio" id="bio" th:field="*{bio}" placeholder="Biography"></textarea>
             <div class="btns">
                 <a href="/" class="btn">Back</a>
                 <button type="submit" class="btn">Update</button>

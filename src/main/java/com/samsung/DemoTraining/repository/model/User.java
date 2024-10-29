@@ -1,6 +1,5 @@
 package com.samsung.DemoTraining.repository.model;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +36,7 @@ public class User {
 	private String fullname;
 	
 	@Column(nullable = true)
-	private short birthyear;
+	private Short birthyear;
 	
 	private String email;
 	

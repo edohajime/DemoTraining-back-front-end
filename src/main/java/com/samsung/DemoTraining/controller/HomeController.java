@@ -49,7 +49,9 @@ public class HomeController {
 	
 	@GetMapping(value = "/profile-info")
 	public String profileInfo(Principal principal, Model model) {
+		User user = userService.getUser(principal.getName());
 		model.addAttribute("username", principal.getName());
+		model.addAttribute("user", user);
 		return "update-profile";
 	}
 
