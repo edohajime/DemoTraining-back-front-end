@@ -47,8 +47,16 @@ public class HomeController {
 		return "change-password";
 	}
 	
-	@GetMapping(value = "/profile-info")
+	@GetMapping(value = "/account-info")
 	public String profileInfo(Principal principal, Model model) {
+		User user = userService.getUser(principal.getName());
+		model.addAttribute("username", principal.getName());
+		model.addAttribute("user", user);
+		return "account-info";
+	}
+	
+	@GetMapping(value = "/update-profile")
+	public String updateProfile(Principal principal, Model model) {
 		User user = userService.getUser(principal.getName());
 		model.addAttribute("username", principal.getName());
 		model.addAttribute("user", user);

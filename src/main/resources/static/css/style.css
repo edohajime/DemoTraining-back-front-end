@@ -69,8 +69,13 @@ button.btn {
 
 /* index.html */
 p.current-username {
-    width: 50%;
+    width: 100px;
     text-align: left;
+}
+
+.top-right-btns {
+    display: flex;
+    gap: 5px;
 }
 
 .update-profile {
@@ -78,9 +83,10 @@ p.current-username {
     display: flex;
     flex-direction: column;
     height: 18px;
-    padding: 8px 5px 8px 15px;
+    padding: 8px 15px 8px 15px;
     gap: 8px;
     border: 1px solid gray;
+    color: black;
 }
 
 a.update-profile-option {
@@ -184,4 +190,45 @@ a.action.action-mod.profile {
 button.action.action-logout {
     border: none;
     font-size: 1rem;
+}
+
+/* USER ACCOUNT */
+
+.user-avatar {
+    margin-top: 40px;
+    width: 150px;
+    height: 150px;
+    border: 1px solid;
+}
+
+.section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    border: 1px solid;
+}
+
+.user-info {
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.user-info p {
+    margin: 10px;
+}
+
+a.action.action-logout.update-profile {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+}
+
+a.action.action-logout.back {
+    position: absolute;
+    top: 2%;
+    left: 2%;
 }

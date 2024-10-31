@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,15 +13,13 @@
     <div class="container">
         <div class="header">
             <p class="current-username">User: <span th:text="${username}"></span></p>
-            <!-- action action-mod profile -->
-            <div class="update-profile">
-                <a href="/profile-info">Update Profile <img class="caret-down-solid"
-                        src="/imgs/caret-down-solid.svg" alt="svg file"></a>
-                <a href="/change-password" class="update-profile-option">Change Password</a>
+
+            <div class="top-right-btns">
+                <a href="/account-info" class="action action-logout">Account Info</a>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="action action-logout">Log Out</button>
+                </form>
             </div>
-            <form th:action="@{/logout}" method="post">
-                <button type="submit" class="action action-logout">Log Out</button>
-            </form>
         </div>
         <div class="header">
             <h1 class="header-title">User List</h1>
@@ -31,8 +28,10 @@
         <div th:each="user: ${users}" class="users">
             <p class="username" th:text="${user.username}"></p>
             <th:block th:if="${user.username != username}">
-                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/mod-user(id=${user.id})}" class="action action-mod">Mod</a>
-                <div sec:authorize="hasRole('ROLE_ADMIN')" class="action action-del" th:attr="onclick=|handleDelUser(${user.id}, '${user.username}')|">Del
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/mod-user(id=${user.id})}"
+                    class="action action-mod">Mod</a>
+                <div sec:authorize="hasRole('ROLE_ADMIN')" class="action action-del"
+                    th:attr="onclick=|handleDelUser(${user.id}, '${user.username}')|">Del
                 </div>
             </th:block>
         </div>
