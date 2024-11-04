@@ -1,6 +1,7 @@
 package com.samsung.DemoTraining.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,6 +44,11 @@ public class UserService implements UserDetailsService {
 			}
 		}
 		return contain;
+	}
+
+	public List<User> getUsersBySearchName(String searchName) {
+		List<User> allUsers = userRepo.findAll();
+		return allUsers.stream().filter(user -> user.getUsername().contains(searchName)).collect(Collectors.toList());
 	}
 
 	@Override

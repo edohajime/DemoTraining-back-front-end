@@ -4,21 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modify User</title>
+    <title>Change Username</title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <div class="container">
-        <h1 class="header-title">Modify User</h1>
+        <h1 class="header-title">Change Username</h1>
         <form action="/modify-user" method="post" th:object="${user}">
             <p class="error" th:if="${error != null}" th:text="${error}"></p>
             <input type="hidden" name="id" th:field="*{id}">
             <input type="text" name="username" id="username" placeholder="User name" th:field="*{username}">
             <div class="btns">
                 <a href="/" class="btn">Back</a>
-                <button type="submit" class="btn">Modify</button>
+                <button type="submit" class="btn">Change</button>
             </div>
         </form>
     </div>

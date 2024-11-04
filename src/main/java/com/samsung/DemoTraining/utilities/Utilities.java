@@ -83,7 +83,7 @@ public class Utilities {
 		}
 		
 		if (!user.getFullname().matches("^[a-zA-Z\\s]{4,30}")) {
-			model.addAttribute("error", "Invalid fullname! Fullname just have alphabet character");
+			model.addAttribute("error", "Invalid fullname! Fullname just have alphabet character and length must in 4-30 character");
 			return false;
 		}
 		

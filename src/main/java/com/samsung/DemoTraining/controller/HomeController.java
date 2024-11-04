@@ -18,9 +18,10 @@ public class HomeController {
 	UserService userService;
 	
 	@GetMapping(value = "/")
-	public String index(Principal principal, Model model) {
+	public String index(Authentication authenticate, Model model) {
 		model.addAttribute("users", userService.getAllUser());
-		model.addAttribute("username", principal.getName());
+		model.addAttribute("username", authenticate.getName());
+		model.addAttribute("authorities", authenticate.getAuthorities());
 		return "index";
 	}
 
@@ -34,11 +35,11 @@ public class HomeController {
 		return "add-user";
 	}
 
-	@GetMapping(value = "/mod-user")
+	@GetMapping(value = "/change-username")
 	public String modUser(@RequestParam(name = "id") int id, Model model) {
 		User user = userService.get(id);
 		model.addAttribute("user", user);
-		return "mod-user";
+		return "change-username";
 	}
 	
 	@GetMapping(value = "/change-password")
@@ -47,12 +48,12 @@ public class HomeController {
 		return "change-password";
 	}
 	
-	@GetMapping(value = "/account-info")
+	@GetMapping(value = "/profile")
 	public String profileInfo(Principal principal, Model model) {
 		User user = userService.getUser(principal.getName());
 		model.addAttribute("username", principal.getName());
 		model.addAttribute("user", user);
-		return "account-info";
+		return "profile";
 	}
 	
 	@GetMapping(value = "/update-profile")

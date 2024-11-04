@@ -1,11 +1,14 @@
 package com.samsung.DemoTraining.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.samsung.DemoTraining.configuration.WebSecurityConfig;
 import com.samsung.DemoTraining.repository.UserRepository;
@@ -33,11 +37,11 @@ public class UserController {
 
 	@PostMapping(value = "/register")
 	public String register(User user, Model model) {
-		
+
 		if (!Utilities.validateUsernamePassword(user, model)) {
 			return "add-user";
 		}
-		
+
 		if (userService.contain(user)) {
 			model.addAttribute("error", "Username existed");
 			return "add-user";
@@ -48,17 +52,17 @@ public class UserController {
 		Set<GrantedAuthority> authorities = new HashSet<>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		userAdd.setAuthorities(authorities);
-		
+
 		userRepo.save(userAdd);
 
 		return "redirect:/?message=Register successful";
 	}
-	
+
 	@PostMapping(value = "/modify-user")
 	public String modifyUser(User user, Model model) {
 
 		if (!Utilities.validateUsername(user, model)) {
-			return "mod-user";
+			return "change-username";
 		}
 
 		User userUpdate = userService.get(user.getId());
@@ -75,7 +79,7 @@ public class UserController {
 
 	@PostMapping(value = "/change-pwd")
 	public String changePwd(User user, Model model, Principal principal) {
-		
+
 		if (!Utilities.validateUsernamePassword(user, model)) {
 			model.addAttribute("username", principal.getName());
 			return "change-password";
@@ -103,19 +107,19 @@ public class UserController {
 		userRepo.delete(userDel);
 
 		return "redirect:/?message=Delete successful";
-		
+
 	}
 
 	@PostMapping(value = "/update-profile")
 	public String updateProfile(User user, Model model, Principal principal) {
-		
+
 		if (!Utilities.validateUserProfiles(user, model)) {
 			model.addAttribute("username", principal.getName());
 			return "update-profile";
 		}
 
 		User userUpdate = userService.getUser(user.getUsername());
-		
+
 		userUpdate.setFullname(user.getFullname());
 		userUpdate.setBirthyear(user.getBirthyear());
 		userUpdate.setEmail(user.getEmail());
@@ -126,5 +130,18 @@ public class UserController {
 
 		return "redirect:/?message=Update successful";
 	}
-	
+
+	@GetMapping(value = "/search-user")
+	@ResponseBody
+	public ResponseEntity<List<User>> searchUser(@RequestParam(name = "searchName") String searchName) {
+		List<User> results = new ArrayList();
+		if (searchName.equals("all")) {
+			results = userService.getAllUser();
+		} else {
+			results = userService.getUsersBySearchName(searchName);
+		}
+
+		return new ResponseEntity<>(results, HttpStatus.OK);
+	}
+
 }

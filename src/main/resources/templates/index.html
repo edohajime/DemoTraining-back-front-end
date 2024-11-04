@@ -7,6 +7,7 @@
     <title>Home</title>
 
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/main.js"></script>
 </head>
 
 <body>
@@ -15,7 +16,7 @@
             <p class="current-username">User: <span th:text="${username}"></span></p>
 
             <div class="top-right-btns">
-                <a href="/account-info" class="action action-logout">Account Info</a>
+                <a href="/profile" class="action action-logout">Account Info</a>
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="action action-logout">Log Out</button>
                 </form>
@@ -23,17 +24,35 @@
         </div>
         <div class="header">
             <h1 class="header-title">User List</h1>
-            <a sec:authorize="hasRole('ROLE_ADMIN')" href="/add-user" class="action action-add">Add</a>
+            <div class="top-right-btns">
+                <button class="action action-mod search" onclick="handleSearch(event)">Search</button>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" href="/add-user" class="action action-add">Add</a>
+            </div>
         </div>
-        <div th:each="user: ${users}" class="users">
+        <div class="header">
+            <input class="form-input search" type="text" name="searchName" id="searchName" placeholder="Search... ">
+        </div>
+        <div>
+            <div class="search-bar"></div>
+        </div>
+        <!-- <div th:each="user: ${users}" class="users">
             <p class="username" th:text="${user.username}"></p>
             <th:block th:if="${user.username != username}">
-                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/mod-user(id=${user.id})}"
-                    class="action action-mod">Mod</a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/change-username(id=${user.id})}"
+                    class="action action-mod">Change</a>
                 <div sec:authorize="hasRole('ROLE_ADMIN')" class="action action-del"
-                    th:attr="onclick=|handleDelUser(${user.id}, '${user.username}')|">Del
+                    th:attr="onclick=|handleDelUser(${user.id}, '${user.username}')|">Delete
                 </div>
             </th:block>
+        </div> -->
+        <div id="user-list">
+            <script th:inline="javascript">
+                let users = [[${ users }]];
+                let username = [[${ username }]];
+                let authorities = [[${ authorities }]];
+                generateUsers(users, username, authorities);
+
+            </script>
         </div>
         <th:block th:if="${param.continue}">
             <script th:inline="javascript">
@@ -47,11 +66,28 @@
         </th:block>
 
     </div>
+    <script th:inline="javascript">
+        function handleSearch(event) {
+            let searchName = document.querySelector("input#searchName.search").value;
+            let authorities = [[${ authorities }]];
+            let username = [[${ username }]];
+            if (searchName === "") {
+                searchName = "all";
+            }
 
-    <script>
-        function handleDelUser(id, username) {
-            if (confirm(`Are you sure to remove user?`))
-                location.replace("/del-user?id=" + id);
+            console.log(searchName);
+
+            fetch(`http://localhost:8081/search-user?searchName=${searchName}`)
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error("API request failed");
+                    } else {
+                        return res.json();
+                    }
+                })
+                .then((data) => {
+                    generateUsers(data, username, authorities);
+                });
         }
     </script>
 </body>
