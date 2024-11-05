@@ -135,7 +135,7 @@ img.caret-down-solid {
 }
 
 p.username {
-    width: 72%;
+    width: 62%;
     text-align: left;
 }
 
@@ -154,7 +154,7 @@ p.user-info {
     padding: 8px 15px;
 }
 
-button.action.action-mod.search {
+button.action.search {
     border: none;
     padding: 8px 15px;
     font-size: 1rem;
@@ -166,7 +166,11 @@ input#searchName.search {
 }
 
 .action-mod {
-    background-color: blue;
+    background-color: #d5af23;
+}
+
+.action-view {
+    background: blue;
 }
 
 a.action.action-mod.profile {

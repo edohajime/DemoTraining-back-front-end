@@ -25,15 +25,12 @@
         <div class="header">
             <h1 class="header-title">User List</h1>
             <div class="top-right-btns">
-                <button class="action action-mod search" onclick="handleSearch(event)">Search</button>
+                <!-- <button class="action action-view search" onclick="handleSearch(event)">Search</button> -->
                 <a sec:authorize="hasRole('ROLE_ADMIN')" href="/add-user" class="action action-add">Add</a>
             </div>
         </div>
         <div class="header">
-            <input class="form-input search" type="text" name="searchName" id="searchName" placeholder="Search... ">
-        </div>
-        <div>
-            <div class="search-bar"></div>
+            <input class="form-input search" type="text" name="searchName" id="searchName" onkeyup="handleSearch(event)" placeholder="Search... ">
         </div>
         <!-- <div th:each="user: ${users}" class="users">
             <p class="username" th:text="${user.username}"></p>
@@ -72,7 +69,7 @@
             let authorities = [[${ authorities }]];
             let username = [[${ username }]];
             if (searchName === "") {
-                searchName = "all";
+                searchName = "*";
             }
 
             console.log(searchName);

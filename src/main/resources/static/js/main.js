@@ -14,6 +14,7 @@ function generateUser(user, username, authorities) {
   let html = '<div class="users">';
   html += '	<p class="username">' + user.username + "</p>";
   if (!(user.username === username)) {
+    html += '		<a href="/view-profile?id=' + user.id + '" class="action action-view">View</a>';
     if (hasRole(authorities, "ROLE_ADMIN")) {
       html += '		<a href="/change-username?id=' + user.id + '" class="action action-mod">Change</a>';
       html += '		<div class="action action-del" onclick="handleDelUser(' + user.id + ", '" + user.username + "')\">Delete</div>";

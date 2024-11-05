@@ -56,6 +56,14 @@ public class HomeController {
 		return "profile";
 	}
 	
+	@GetMapping(value = "/view-profile")
+	public String viewProfile(@RequestParam(name = "id") int id, Principal principal, Model model) {
+		User user = userService.get(id);
+		model.addAttribute("username", principal.getName());
+		model.addAttribute("user", user);
+		return "view-profile";
+	}
+	
 	@GetMapping(value = "/update-profile")
 	public String updateProfile(Principal principal, Model model) {
 		User user = userService.getUser(principal.getName());

@@ -134,13 +134,8 @@ public class UserController {
 	@GetMapping(value = "/search-user")
 	@ResponseBody
 	public ResponseEntity<List<User>> searchUser(@RequestParam(name = "searchName") String searchName) {
-		List<User> results = new ArrayList();
-		if (searchName.equals("all")) {
-			results = userService.getAllUser();
-		} else {
-			results = userService.getUsersBySearchName(searchName);
-		}
-
+		List<User> results = userService.getUsersBySearchName(searchName);
+		
 		return new ResponseEntity<>(results, HttpStatus.OK);
 	}
 

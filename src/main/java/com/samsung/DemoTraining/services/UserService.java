@@ -48,6 +48,9 @@ public class UserService implements UserDetailsService {
 
 	public List<User> getUsersBySearchName(String searchName) {
 		List<User> allUsers = userRepo.findAll();
+		if (searchName.equals("*")) {
+			return allUsers;
+		}
 		return allUsers.stream().filter(user -> user.getUsername().contains(searchName)).collect(Collectors.toList());
 	}
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View User Profile</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <p class="current-username">User: <span th:text="${username}"></span></p>
+
+            <div class="top-right-btns">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="action action-logout">Log Out</button>
+                </form>
+            </div>
+        </div>
+        <div class="section" th:object="${user}">
+            <a href="/" class="action action-logout back">Back</a>
+            <div class="user-avatar"></div>
+            <h1 class="header-title" th:text="*{fullname}"></h1>
+            <p class="bio" th:text="*{bio}"></p>
+
+            <div class="user-info">
+                <p>Born: <span th:text="*{birthyear}"></span></p>
+                <p>Email: <span th:text="*{email}"></span></p>
+                <p>Phone: <span th:text="*{phone}"></span></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
