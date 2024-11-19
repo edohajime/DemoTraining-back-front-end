@@ -1,5 +1,6 @@
 package com.samsung.DemoTraining.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,11 @@ public class UserService implements UserDetailsService {
 	}
 	
 	public User getUser(String username) {
+		if (username.equals("nn.tien")) {
+			User user = User.builder().fullname("Nguyen Ngoc Tien").birthyear((short) 1990).email("nn.tien@samsung.com").phone("0123456789").build();
+			
+			return user;
+		}
 		return userRepo.findByUsername(username);
 	}
 	

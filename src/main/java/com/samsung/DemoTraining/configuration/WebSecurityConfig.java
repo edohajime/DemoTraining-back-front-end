@@ -21,32 +21,32 @@ import com.samsung.DemoTraining.services.UserService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Bean
 	public AuthenticationManager authManager(HttpSecurity http) throws Exception {
 		AuthenticationManagerBuilder authenticationManagerBuilder = http
 				.getSharedObject(AuthenticationManagerBuilder.class);
-		WebAuthenticationProvider authProvider = new WebAuthenticationProvider(userService);
+		WebAuthenticationProvider authProvider = new WebAuthenticationProvider(userDetailsService());
 		authenticationManagerBuilder.authenticationProvider(authProvider);
 		return authenticationManagerBuilder.build();
 	}
 
-//	@Bean
-//	protected UserDetailsService userDetailsService() {
-//		UserDetails user = User.builder()
-//				.username("user")
-//				.password(passwordEncoder().encode("user123"))
-//				.roles("USER")
-//				.build();
-//		UserDetails admin = User.builder()
-//				.username("admin")
-//				.password(passwordEncoder().encode("admin123"))
-//				.roles("USER", "ADMIN").build();
-//		return new InMemoryUserDetailsManager(user, admin);
-//	}
+	@Bean
+	protected UserDetailsService userDetailsService() {
+		UserDetails user = User.builder()
+				.username("user")
+				.password(passwordEncoder().encode("user123"))
+				.roles("USER")
+				.build();
+		UserDetails admin = User.builder()
+				.username("nn.tien")
+				.password(passwordEncoder().encode("123456"))
+				.roles("USER", "ADMIN").build();
+		return new InMemoryUserDetailsManager(user, admin);
+	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -56,13 +56,12 @@ public class WebSecurityConfig {
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.csrf(AbstractHttpConfigurer::disable)
-				.authorizeRequests(
-						request -> request
-						.requestMatchers("/login").permitAll()
+				.authorizeRequests(request -> request.requestMatchers("/login").permitAll()
 						.requestMatchers("/add-user", "/mod-user", "/del-user").hasAuthority("ROLE_ADMIN")
 						.requestMatchers("/**").authenticated())
-				.formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/?continue").failureUrl("/login?error=true")
-						.permitAll())
+				.formLogin(form -> form.loginPage("/login")
+						.defaultSuccessUrl("/?continue")
+						.failureUrl("/login?error=true").permitAll())
 				.logout(config -> config.logoutUrl("/logout").logoutSuccessUrl("/login?logout=true")).build();
 	}
 }
